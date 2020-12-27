@@ -1,0 +1,23 @@
+{
+  "name": "feedo",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "jsonfeed-to-atom": "^1.2.2",
+    "next": "10.0.4",
+    "react": "17.0.1",
+    "react-dom": "17.0.1"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/node": "^14.14.16",
+    "@types/react": "^17.0.0",
+    "typescript": "^4.1.3"
+  }
+}
