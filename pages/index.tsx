@@ -1,36 +1,58 @@
 import Head from "next/head";
-import styles from "../styles/Home.module.css";
+import s from "../styles/Home.module.css";
+
+const feeds = [
+  {
+    title: "Bilibili",
+    items: [
+      {
+        key: "atom",
+        url: "/api/bilibili/v1/7458285/atom",
+      },
+    ],
+  },
+  {
+    title: "Dribbble Popular Shots",
+    items: [
+      {
+        key: "atom",
+        url: "/api/dribbble/v1/popular/atom",
+      },
+    ],
+  },
+  {
+    title: "Wikipedia Daily Featured (中文)",
+    items: [
+      {
+        key: "json",
+        url: "/api/wikipedia/v1/featured/json",
+      },
+    ],
+  },
+];
 
 export default function Home() {
   return (
-    <div className={styles.container}>
+    <div className={s.root}>
       <Head>
         <title>Feedo</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
+      <main className={s.main}>
         <h1>Available Feeds</h1>
         <ul>
-          <li>
-            <h2>Bilibili</h2>
-            <p>Examples</p>
-            <p>
-              <ul>
-                <li>https://feedo.vercel.app/api/bilibili/v1/7458285/atom</li>
-              </ul>
-            </p>
-          </li>
-          <li>
-            <h2>Dribbble</h2>
-            <p>Popular Shots</p>
-            <p>
-              <ul>
-                <li>
-                  https://feed.haishan.vercel.app/api/dribbble/v1/popular/atom
-                </li>
-              </ul>
-            </p>
-          </li>
+          {feeds.map((feed) => {
+            return (
+              <li key={feed.title}>
+                <h2>{feed.title}</h2>
+                <ul>
+                  {feed.items.map((item) => {
+                    return <li key={item.key}>{item.url}</li>;
+                  })}
+                </ul>
+              </li>
+            );
+          })}
         </ul>
       </main>
     </div>

@@ -9,8 +9,23 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+  box-shadow: inset 0 -2px 0 rgb(249, 235, 29);
+}
+
+a:hover {
+  box-shadow: inset 0 -1.2em 0 rgba(249, 235, 29, 0.5);
 }
 
 * {
   box-sizing: border-box;
+}
+
+:root {
+  --fmono: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+.sriracha,
+h1,
+h2 {
+  font-family: "Sriracha", cursive;
 }
