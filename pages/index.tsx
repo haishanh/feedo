@@ -1,5 +1,6 @@
+import s from "@styles/Home.module.css";
 import Head from "next/head";
-import s from "../styles/Home.module.css";
+import { Ol } from "@lib/components/Ol";
 
 const feeds = [
   {
@@ -7,7 +8,12 @@ const feeds = [
     items: [
       {
         key: "atom",
-        url: "/api/bilibili/v1/7458285/atom",
+        url: "/api/bilibili/v1/{uid}/atom",
+        examples: [
+          { name: "当下频道", url: "/api/bilibili/v1/32360194/atom" },
+          { name: "爱否科技FView", url: "/api/bilibili/v1/7458285/atom" },
+          { name: "老师好我叫何同学", url: "/api/bilibili/v1/163637592/atom" },
+        ],
       },
     ],
   },
@@ -47,7 +53,25 @@ export default function Home() {
                 <h2>{feed.title}</h2>
                 <ul>
                   {feed.items.map((item) => {
-                    return <li key={item.key}>{item.url}</li>;
+                    return (
+                      <li key={item.key}>
+                        <p>{item.url}</p>
+                        {item.examples ? (
+                          <>
+                            <h3>Examples</h3>
+                            <Ol>
+                              {item.examples.map((a) => {
+                                return (
+                                  <li key={a.name}>
+                                    <a href={a.url}>{a.name}</a>
+                                  </li>
+                                );
+                              })}
+                            </Ol>
+                          </>
+                        ) : null}
+                      </li>
+                    );
                   })}
                 </ul>
               </li>
