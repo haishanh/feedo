@@ -22,6 +22,7 @@
     "timeout": "30s"
   },
   "dependencies": {
+    "@fontsource/sriracha": "^4.2.3",
     "axios": "^0.21.1",
     "cheerio": "^1.0.0-rc.6",
     "dlv": "^1.1.3",
