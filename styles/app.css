@@ -24,6 +24,25 @@ a:hover {
   --fmono: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #111;
+    --color-fg: #eee;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --color-bg: #f7f7f7;
+    --color-fg: #111;
+  }
+}
+
+html {
+  color: var(--color-fg);
+  background: var(--color-bg);
+}
+
 .sriracha,
 h1,
 h2 {
