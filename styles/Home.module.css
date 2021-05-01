@@ -7,3 +7,12 @@
   padding: 1em;
   margin: 0 auto;
 }
+
+.main h2 {
+  margin-bottom: 0.3em;
+}
+
+.icon {
+  width: 48px;
+  height: 48px;
+}
