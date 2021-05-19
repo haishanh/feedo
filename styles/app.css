@@ -9,11 +9,14 @@ body {
 a {
   color: inherit;
   text-decoration: none;
-  box-shadow: inset 0 -2px 0 rgb(249, 235, 29);
+  text-decoration: underline;
+  text-decoration-color: rgb(249, 235, 29);
+  text-decoration-skip: edges;
+  text-decoration-thickness: 2px;
 }
 
 a:hover {
-  box-shadow: inset 0 -1.2em 0 rgba(249, 235, 29, 0.5);
+  text-decoration-color: rgb(249, 235, 29, 0.7);
 }
 
 * {
