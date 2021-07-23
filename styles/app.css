@@ -24,13 +24,15 @@ a:hover {
 }
 
 :root {
-  --fmono: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+  --fmono: ui-monospace, "Cascadia Mono", "Segoe UI Mono", "Ubuntu Mono",
+    "Roboto Mono", Menlo, Monaco, Consolas, monospace;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --color-bg: #111;
     --color-fg: #eee;
+    --color-pre-bg: #1a1a1a;
   }
 }
 
@@ -38,6 +40,7 @@ a:hover {
   :root {
     --color-bg: #f7f7f7;
     --color-fg: #111;
+    --color-pre-bg: #fff;
   }
 }
 

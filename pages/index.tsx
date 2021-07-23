@@ -1,6 +1,8 @@
 import s from "@styles/Home.module.css";
 import Head from "next/head";
 import { Ol } from "@lib/components/Ol";
+import { CopiableExample } from "@lib/components/CopiableExample";
+import { GetServerSideProps } from "next";
 
 type ExampleItem = { name: string; url: string };
 
@@ -41,8 +43,7 @@ const feeds: FeedItem[] = [
   {
     title: "Dribbble Popular Shots",
     icon: {
-      u:
-        "https://cdn.dribbble.com/assets/dribbble-ball-192-23ecbdf987832231e87c642bb25de821af1ba6734a626c8c259a20a0ca51a247.png",
+      u: "https://cdn.dribbble.com/assets/dribbble-ball-192-23ecbdf987832231e87c642bb25de821af1ba6734a626c8c259a20a0ca51a247.png",
       w: 48,
       h: 48,
     },
@@ -94,15 +95,14 @@ const otherFeeds: FeedItem[] = [
   {
     title: "GitHub",
     icon: {
-      u: 'https://github.com/fluidicon.png',
+      u: "https://github.com/fluidicon.png",
       w: 48,
       h: 48,
     },
     items: [
       {
         key: "commits",
-        url:
-          "Recent Commits of a repo https://github.com/{user}/{repo}/commits/{branch}.atom",
+        url: "Recent Commits of a repo https://github.com/{user}/{repo}/commits/{branch}.atom",
         examples: [
           {
             name: "Recent Commits to evanw/esbuild master branch",
@@ -113,8 +113,7 @@ const otherFeeds: FeedItem[] = [
       },
       {
         key: "releases",
-        url:
-          "Releases of a repo https://github.com/{user}/{repo}/releases.atom",
+        url: "Releases of a repo https://github.com/{user}/{repo}/releases.atom",
         examples: [
           {
             name: "Releases of facebook/react",
@@ -127,8 +126,7 @@ const otherFeeds: FeedItem[] = [
   {
     title: "Reddit",
     icon: {
-      u:
-        "https://www.redditstatic.com/desktop2x/img/favicon/apple-icon-180x180.png",
+      u: "https://www.redditstatic.com/desktop2x/img/favicon/apple-icon-180x180.png",
       w: 48,
       h: 48,
     },
@@ -158,7 +156,7 @@ const otherFeeds: FeedItem[] = [
   },
 ];
 
-export default function Home() {
+export default function Home({ base }: { base: string }) {
   return (
     <div className={s.root}>
       <Head>
@@ -167,20 +165,20 @@ export default function Home() {
       </Head>
       <main className={s.main}>
         <h1>Available Feeds</h1>
-        <Feeds feeds={feeds} />
+        <Feeds feeds={feeds} base={base} />
         <h1>Some Sites That Already Provide Feeds</h1>
-        <Feeds feeds={otherFeeds} />
+        <Feeds feeds={otherFeeds} base={''} />
       </main>
     </div>
   );
 }
 
-function Feeds({ feeds }: { feeds: FeedItem[] }) {
+function Feeds({ feeds, base }: { feeds: FeedItem[]; base: string }) {
   return (
-    <ul>
+    <section>
       {feeds.map(({ icon, title, items }) => {
         return (
-          <li key={title}>
+          <div key={title}>
             <h2>{title}</h2>
             {icon ? (
               <img
@@ -195,19 +193,25 @@ function Feeds({ feeds }: { feeds: FeedItem[] }) {
                 return (
                   <li key={item.key}>
                     <p>{item.url}</p>
-                    <Examples examples={item.examples} />
+                    <Examples examples={item.examples} base={base} />
                   </li>
                 );
               })}
             </ul>
-          </li>
+          </div>
         );
       })}
-    </ul>
+    </section>
   );
 }
 
-function Examples({ examples }: { examples?: ExampleItem[] }) {
+function Examples({
+  examples,
+  base,
+}: {
+  examples?: ExampleItem[];
+  base: string;
+}) {
   return examples ? (
     <>
       <h3>Examples</h3>
@@ -215,7 +219,10 @@ function Examples({ examples }: { examples?: ExampleItem[] }) {
         {examples.map((a) => {
           return (
             <li key={a.name}>
-              <a href={a.url}>{a.name}</a>
+              <div className={s.listCnt}>
+                <a href={a.url}>{a.name}</a>
+                <CopiableExample cnt={base + a.url} />
+              </div>
             </li>
           );
         })}
@@ -223,3 +230,10 @@ function Examples({ examples }: { examples?: ExampleItem[] }) {
     </>
   ) : null;
 }
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  let base = "https://" + ctx.req.headers.host;
+  return {
+    props: { base },
+  };
+};

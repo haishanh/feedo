@@ -1,0 +1,22 @@
+.pre {
+  margin: 0.5em auto;
+  font-size: 0.8em;
+  font-family: var(--fmono);
+  background-color: var(--color-pre-bg);
+  padding: 16px 20px 16px 10px;
+  border-radius: 10px;
+  position: relative;
+  // to avoid horizontal scroll
+  white-space: pre-wrap;
+}
+
+.copyBtn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  visibility: hidden;
+}
+
+.pre:hover .copyBtn {
+  visibility: visible;
+}
