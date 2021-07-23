@@ -68,6 +68,23 @@ const feeds: FeedItem[] = [
       },
     ],
   },
+  {
+    title: "Hacker News Daily",
+    icon: {
+      u: "https://news.ycombinator.com/favicon.ico",
+      w: 48,
+      h: 48,
+    },
+    items: [
+      {
+        key: "json",
+        url: "/api/hackernews/v1/daily/json",
+        examples: [
+          { name: "Daily", url: "/api/hackernews/v1/daily/json" },
+        ],
+      },
+    ],
+  },
 ];
 
 const otherFeeds: FeedItem[] = [
@@ -166,8 +183,8 @@ export default function Home({ base }: { base: string }) {
       <main className={s.main}>
         <h1>Available Feeds</h1>
         <Feeds feeds={feeds} base={base} />
-        <h1>Some Sites That Already Provide Feeds</h1>
-        <Feeds feeds={otherFeeds} base={''} />
+        <h1>Sites Which Provide Feeds Already</h1>
+        <Feeds feeds={otherFeeds} base={""} />
       </main>
     </div>
   );
