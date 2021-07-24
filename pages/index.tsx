@@ -1,4 +1,4 @@
-import s from "@styles/Home.module.css";
+import s from "@styles/Home.module.scss";
 import Head from "next/head";
 import { Ol } from "@lib/components/Ol";
 import { CopiableExample } from "@lib/components/CopiableExample";
@@ -51,6 +51,7 @@ const feeds: FeedItem[] = [
       {
         key: "atom",
         url: "/api/dribbble/v1/popular/atom",
+        examples: [{ name: "Popular", url: "/api/dribbble/v1/popular/atom" }],
       },
     ],
   },
@@ -65,6 +66,9 @@ const feeds: FeedItem[] = [
       {
         key: "json",
         url: "/api/wikipedia/v1/featured/json",
+        examples: [
+          { name: "Daily Featured", url: "/api/wikipedia/v1/featured/json" },
+        ],
       },
     ],
   },
@@ -79,9 +83,7 @@ const feeds: FeedItem[] = [
       {
         key: "json",
         url: "/api/hackernews/v1/daily/json",
-        examples: [
-          { name: "Daily", url: "/api/hackernews/v1/daily/json" },
-        ],
+        examples: [{ name: "Daily", url: "/api/hackernews/v1/daily/json" }],
       },
     ],
   },
@@ -175,7 +177,7 @@ const otherFeeds: FeedItem[] = [
 
 export default function Home({ base }: { base: string }) {
   return (
-    <div className={s.root}>
+    <div>
       <Head>
         <title>Feedo</title>
         <link rel="icon" href="/favicon.ico" />
@@ -196,16 +198,18 @@ function Feeds({ feeds, base }: { feeds: FeedItem[]; base: string }) {
       {feeds.map(({ icon, title, items }) => {
         return (
           <div key={title}>
-            <h2>{title}</h2>
-            {icon ? (
-              <img
-                className={s.icon}
-                src={icon.u}
-                width={icon.w}
-                height={icon.h}
-              />
-            ) : null}
-            <ul>
+            <h2>
+              {icon ? (
+                <img
+                  className={s.icon}
+                  src={icon.u}
+                  width={icon.w}
+                  height={icon.h}
+                />
+              ) : null}
+              {title}
+            </h2>
+            <ul className={s.feedUl}>
               {items.map((item: FeedUrlItem) => {
                 return (
                   <li key={item.key}>

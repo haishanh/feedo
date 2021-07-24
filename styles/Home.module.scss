@@ -1,0 +1,26 @@
+.main {
+  max-width: 1000px;
+  padding: 1em;
+  margin: 0 auto;
+}
+
+.main h2 {
+  margin-bottom: 0.3em;
+  display: flex;
+  align-items: center;
+
+  .icon {
+    margin-right: 10px;
+
+    width: 48px;
+    height: 48px;
+  }
+}
+
+.feedUl {
+  padding-left: 1.5em;
+}
+
+.listCnt {
+  width: 100%;
+}
