@@ -154,9 +154,7 @@ function renderTfa(tfa: WikiFeatured["tfa"] | undefined) {
       c("a", { href: get(tfa, "content_urls.desktop.page") }, tfa.displaytitle)
     ),
     img(tfa.thumbnail),
-    c("div", {
-      dangerouslySetInnerHTML: { __html: tfa.extract_html },
-    })
+    c("div", { dangerouslySetInnerHTML: { __html: tfa.extract_html } })
   );
 }
 
