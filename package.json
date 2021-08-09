@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@fontsource/sriracha": "4.5.0",
-    "@reach/visually-hidden": "0.15.2",
+    "@reach/visually-hidden": "0.16.0",
     "axios": "^0.21.1",
     "cheerio": "1.0.0-rc.10",
     "copy-text-to-clipboard": "3.0.1",
@@ -37,13 +37,13 @@
   "devDependencies": {
     "@types/axios": "^0.14.0",
     "@types/dlv": "^1.1.2",
-    "@types/node": "16.4.1",
-    "@types/react": "17.0.14",
+    "@types/node": "16.4.13",
+    "@types/react": "17.0.16",
     "@types/react-dom": "17.0.9",
     "ava": "^3.15.0",
-    "sass": "1.36.0",
+    "sass": "1.37.5",
     "ts-eager": "2.0.2",
-    "ts-node": "10.1.0",
+    "ts-node": "10.2.0",
     "tsconfig-paths": "3.10.1",
     "typescript": "4.3.5"
   }

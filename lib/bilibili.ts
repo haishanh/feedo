@@ -1,6 +1,8 @@
 import axios, { AxiosInstance, AxiosError } from "axios";
 import { URLSearchParams } from "url";
 
+const FAVICON = "https://www.bilibili.com/favicon.ico";
+
 export class BilibiliService {
   constructor() {
     this.axios = axios.create({
@@ -71,7 +73,7 @@ export class BilibiliService {
       title: author.name + " on bilibili",
       home_page_url: `https://space.bilibili.com/${mid}`,
       feed_url: feedUrl,
-      favicon: "https://www.bilibili.com/favicon.ico",
+      favicon: author.avatar || FAVICON,
       author,
       // authors: [author],
       items: vlist.map(formatVlistItem),
