@@ -1,0 +1,21 @@
+.footer {
+  font-size: 0.75em;
+  padding: 16px;
+  text-align: right;
+
+  .text {
+    opacity: 0.6;
+  }
+
+  a {
+    text-decoration: none;
+    opacity: 0.7;
+    padding: 6px;
+    transform: translateX(6px);
+    display: inline-flex;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}

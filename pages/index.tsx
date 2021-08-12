@@ -1,6 +1,7 @@
 import s from "@styles/Home.module.scss";
 import Head from "next/head";
 import { Ol } from "@lib/components/Ol";
+import { Footer } from "@lib/components/Footer";
 import { CopiableExample } from "@lib/components/CopiableExample";
 import { GetServerSideProps } from "next";
 
@@ -188,6 +189,7 @@ export default function Home({ base }: { base: string }) {
         <h1>Sites Which Provide Feeds Already</h1>
         <Feeds feeds={otherFeeds} base={""} />
       </main>
+      <Footer />
     </div>
   );
 }
