@@ -32,11 +32,14 @@ const feeds: FeedItem[] = [
     items: [
       {
         key: "atom",
-        url: "/api/bilibili/v1/{uid}/atom",
+        url: "Atom feed /api/bilibili/v1/{uid}/atom",
+        examples: [{ name: "当下频道", url: "/api/bilibili/v1/32360194/atom" }],
+      },
+      {
+        key: "json",
+        url: "JSON feed /api/bilibili/v1/{uid}/json",
         examples: [
-          { name: "当下频道", url: "/api/bilibili/v1/32360194/atom" },
-          { name: "爱否科技FView", url: "/api/bilibili/v1/7458285/atom" },
-          { name: "老师好我叫何同学", url: "/api/bilibili/v1/163637592/atom" },
+          { name: "爱否科技FView", url: "/api/bilibili/v1/7458285/json" },
         ],
       },
     ],
