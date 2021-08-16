@@ -5,7 +5,7 @@ import { Footer } from "@lib/components/Footer";
 import { CopiableExample } from "@lib/components/CopiableExample";
 import { GetServerSideProps } from "next";
 
-type ExampleItem = { name: string; url: string };
+type ExampleItem = { name: string; url: string; feed: string };
 
 type FeedUrlItem = {
   key: string;
@@ -33,13 +33,23 @@ const feeds: FeedItem[] = [
       {
         key: "atom",
         url: "Atom feed /api/bilibili/v1/{uid}/atom",
-        examples: [{ name: "当下频道", url: "/api/bilibili/v1/32360194/atom" }],
+        examples: [
+          {
+            name: "当下频道",
+            url: "https://space.bilibili.com/32360194",
+            feed: "/api/bilibili/v1/32360194/atom",
+          },
+        ],
       },
       {
         key: "json",
         url: "JSON feed /api/bilibili/v1/{uid}/json",
         examples: [
-          { name: "爱否科技FView", url: "/api/bilibili/v1/7458285/json" },
+          {
+            name: "爱否科技FView",
+            url: "https://space.bilibili.com/7458285",
+            feed: "/api/bilibili/v1/7458285/json",
+          },
         ],
       },
     ],
@@ -55,7 +65,13 @@ const feeds: FeedItem[] = [
       {
         key: "atom",
         url: "/api/dribbble/v1/popular/atom",
-        examples: [{ name: "Popular", url: "/api/dribbble/v1/popular/atom" }],
+        examples: [
+          {
+            name: "Popular",
+            url: "https://dribbble.com/",
+            feed: "/api/dribbble/v1/popular/atom",
+          },
+        ],
       },
     ],
   },
@@ -71,7 +87,11 @@ const feeds: FeedItem[] = [
         key: "json",
         url: "/api/wikipedia/v1/featured/json",
         examples: [
-          { name: "Daily Featured", url: "/api/wikipedia/v1/featured/json" },
+          {
+            name: "Daily Featured",
+            url: "https://zh.wikipedia.org/wiki/Wikipedia:%E9%A6%96%E9%A1%B5",
+            feed: "/api/wikipedia/v1/featured/json",
+          },
         ],
       },
     ],
@@ -87,7 +107,13 @@ const feeds: FeedItem[] = [
       {
         key: "json",
         url: "/api/hackernews/v1/daily/json",
-        examples: [{ name: "Daily", url: "/api/hackernews/v1/daily/json" }],
+        examples: [
+          {
+            name: "Daily",
+            url: "https://news.ycombinator.com/",
+            feed: "/api/hackernews/v1/daily/json",
+          },
+        ],
       },
     ],
   },
@@ -109,7 +135,8 @@ const otherFeeds: FeedItem[] = [
           {
             name: "Gamker攻壳官方频道",
             // prettier-ignore
-            url: "https://www.youtube.com/feeds/videos.xml?channel_id=UCLgGLSFMZQB8c0WGcwE49Gw",
+            url: "https://www.youtube.com/channel/UCLgGLSFMZQB8c0WGcwE49Gw",
+            feed: "https://www.youtube.com/feeds/videos.xml?channel_id=UCLgGLSFMZQB8c0WGcwE49Gw",
           },
         ],
       },
@@ -130,7 +157,8 @@ const otherFeeds: FeedItem[] = [
           {
             name: "Recent Commits to evanw/esbuild master branch",
             // prettier-ignore
-            url: "https://github.com/evanw/esbuild/commits/master.atom",
+            url: "https://github.com/evanw/esbuild",
+            feed: "https://github.com/evanw/esbuild/commits/master.atom",
           },
         ],
       },
@@ -140,7 +168,8 @@ const otherFeeds: FeedItem[] = [
         examples: [
           {
             name: "Releases of facebook/react",
-            url: "https://github.com/facebook/react/releases.atom",
+            url: "https://github.com/facebook/react",
+            feed: "https://github.com/facebook/react/releases.atom",
           },
         ],
       },
@@ -160,7 +189,8 @@ const otherFeeds: FeedItem[] = [
         examples: [
           {
             name: "Posts of r/EarthPorn",
-            url: "https://www.reddit.com/r/EarthPorn.rss",
+            url: "https://www.reddit.com/r/EarthPorn",
+            feed: "https://www.reddit.com/r/EarthPorn.rss",
           },
         ],
       },
@@ -171,7 +201,8 @@ const otherFeeds: FeedItem[] = [
         examples: [
           {
             name: "Hot posts of r/EarthPorn",
-            url: "https://www.reddit.com/r/EarthPorn/hot.rss?limit=3",
+            url: "https://www.reddit.com/r/EarthPorn",
+            feed: "https://www.reddit.com/r/EarthPorn/hot.rss?limit=3",
           },
         ],
       },
@@ -247,7 +278,7 @@ function Examples({
             <li key={a.name}>
               <div className={s.listCnt}>
                 <a href={a.url}>{a.name}</a>
-                <CopiableExample cnt={base + a.url} />
+                <CopiableExample cnt={base + a.feed} />
               </div>
             </li>
           );
