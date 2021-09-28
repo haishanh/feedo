@@ -4,11 +4,13 @@ import s from "./CopiableExample.module.scss";
 
 export function CopiableExample({ cnt }: { cnt: string }) {
   return (
-    <pre className={s.pre}>
-      <span>{cnt}</span>
+    <div className={s.CopiableExample}>
+      <pre className={s.pre}>
+        <code>{cnt}</code>
+      </pre>
       <span className={s.copyBtn}>
         <CopyButton provideContent={() => cnt} />
       </span>
-    </pre>
+    </div>
   );
 }

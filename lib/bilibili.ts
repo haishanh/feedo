@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosError } from "axios";
+import axios, { AxiosInstance, AxiosError, AxiosResponse } from "axios";
 import { URLSearchParams } from "url";
 
 const FAVICON = "https://www.bilibili.com/favicon.ico";
@@ -14,7 +14,7 @@ export class BilibiliService {
   private baseUrl: string;
   private axios: AxiosInstance;
 
-  // "https://api.bilibili.com/x/space/arc/search?ps=10&tid=0&pn=1&order=pubdate&jsonp=jsonp";
+  // "https://api.bilibili.com/x/space/arc/search?ps=10&tid=0&pn=1&order=pubdate&jsonp=jsonp&mid=7458285"
   private async fetchVideosByMid(mid: string) {
     const { baseUrl } = this;
     const qs = new URLSearchParams({
@@ -29,7 +29,7 @@ export class BilibiliService {
       const ret = await this.axios.get(url);
       return ret.data;
     } catch (e) {
-      this.handleAPIError(e);
+      throw this.wrapError(e);
     }
   }
 
@@ -42,20 +42,20 @@ export class BilibiliService {
       const ret = await this.axios.get(url);
       return ret.data;
     } catch (e) {
-      this.handleAPIError(e);
+      throw this.wrapError(e);
     }
   }
 
-  handleAPIError(e: AxiosError) {
+  wrapError(e: AxiosError) {
     if (e.response) {
       const msg = JSON.stringify(e.response.data);
       // I am lazy :(
-      throw new Error(`${e.response.status}:${msg}`);
+      return new Error(`${e.response.status}:${msg}`);
     } else if (e.request) {
       // network error
-      throw new Error(`network:error:${e.code}`);
+      return new Error(`network:error:${e.code}`);
     }
-    throw e;
+    return e;
   }
 
   public async genFeedFor(mid: string, feedUrl: string) {

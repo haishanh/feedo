@@ -1,10 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { fetchPopularPage, buildJsonFeed } from "@lib/dribbble";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const feedUrl = buildFeedUrl(req);
   const html = await fetchPopularPage();
   const json = buildJsonFeed(html, feedUrl);

@@ -5,21 +5,24 @@ import { Footer } from "@lib/components/Footer";
 import { CopiableExample } from "@lib/components/CopiableExample";
 import { GetServerSideProps } from "next";
 
-type ExampleItem = { name: string; url: string; feed: string };
+type FeedItem = { name: string; url: string; feed: string };
+
+type FeedListItem = { title?: string; items: FeedItem[] };
 
 type FeedUrlItem = {
   key: string;
   url: string;
-  examples?: ExampleItem[];
+  list?: FeedListItem;
+  // items?: FeedItem[];
 };
 
-type FeedItem = {
+type FeedSite = {
   title: string;
   icon?: { u: string; w: number; h: number };
   items: FeedUrlItem[];
 };
 
-const feeds: FeedItem[] = [
+const feeds: FeedSite[] = [
   {
     title: "Bilibili",
     icon: {
@@ -33,24 +36,30 @@ const feeds: FeedItem[] = [
       {
         key: "atom",
         url: "Atom feed /api/bilibili/v1/{uid}/atom",
-        examples: [
-          {
-            name: "当下频道",
-            url: "https://space.bilibili.com/32360194",
-            feed: "/api/bilibili/v1/32360194/atom",
-          },
-        ],
+        list: {
+          title: "Examples",
+          items: [
+            {
+              name: "当下频道",
+              url: "https://space.bilibili.com/32360194",
+              feed: "/api/bilibili/v1/32360194/atom",
+            },
+          ],
+        },
       },
       {
         key: "json",
         url: "JSON feed /api/bilibili/v1/{uid}/json",
-        examples: [
-          {
-            name: "爱否科技FView",
-            url: "https://space.bilibili.com/7458285",
-            feed: "/api/bilibili/v1/7458285/json",
-          },
-        ],
+        list: {
+          title: "Examples",
+          items: [
+            {
+              name: "爱否科技FView",
+              url: "https://space.bilibili.com/7458285",
+              feed: "/api/bilibili/v1/7458285/json",
+            },
+          ],
+        },
       },
     ],
   },
@@ -65,13 +74,16 @@ const feeds: FeedItem[] = [
       {
         key: "atom",
         url: "/api/dribbble/v1/popular/atom",
-        examples: [
-          {
-            name: "Popular",
-            url: "https://dribbble.com/",
-            feed: "/api/dribbble/v1/popular/atom",
-          },
-        ],
+        list: {
+          title: "Examples",
+          items: [
+            {
+              name: "Popular",
+              url: "https://dribbble.com/",
+              feed: "/api/dribbble/v1/popular/atom",
+            },
+          ],
+        },
       },
     ],
   },
@@ -86,13 +98,16 @@ const feeds: FeedItem[] = [
       {
         key: "json",
         url: "/api/wikipedia/v1/featured/json",
-        examples: [
-          {
-            name: "Daily Featured",
-            url: "https://zh.wikipedia.org/wiki/Wikipedia:%E9%A6%96%E9%A1%B5",
-            feed: "/api/wikipedia/v1/featured/json",
-          },
-        ],
+        list: {
+          title: "Examples",
+          items: [
+            {
+              name: "Daily Featured",
+              url: "https://zh.wikipedia.org/wiki/Wikipedia:%E9%A6%96%E9%A1%B5",
+              feed: "/api/wikipedia/v1/featured/json",
+            },
+          ],
+        },
       },
     ],
   },
@@ -107,19 +122,50 @@ const feeds: FeedItem[] = [
       {
         key: "json",
         url: "/api/hackernews/v1/daily/json",
-        examples: [
-          {
-            name: "Daily",
-            url: "https://news.ycombinator.com/",
-            feed: "/api/hackernews/v1/daily/json",
-          },
-        ],
+        list: {
+          items: [
+            {
+              name: "Daily",
+              url: "https://news.ycombinator.com/",
+              feed: "/api/hackernews/v1/daily/json",
+            },
+          ],
+        },
+      },
+    ],
+  },
+  {
+    title: "Epic Games",
+    icon: {
+      // prettier-ignore
+      u: "https://cdn2.unrealengine.com/Epic+Games+Node%2Fxlarge_whitetext_blackback_epiclogo_504x512_1529964470588-503x512-ac795e81c54b27aaa2e196456dd307bfe4ca3ca4.jpg",
+      w: 48,
+      h: 48,
+    },
+    items: [
+      {
+        key: "offers",
+        url: "Promotional Offers /api/epicgames/offers/v1/{type}",
+        list: {
+          items: [
+            {
+              name: "JSON",
+              url: "https://www.epicgames.com/store/zh-CN/free-games",
+              feed: "/api/epicgames/offers/v1/json",
+            },
+            {
+              name: "Atom",
+              url: "https://www.epicgames.com/store/zh-CN/free-games",
+              feed: "/api/epicgames/offers/v1/atom",
+            },
+          ],
+        },
       },
     ],
   },
 ];
 
-const otherFeeds: FeedItem[] = [
+const otherFeeds: FeedSite[] = [
   {
     title: "YouTube",
     icon: {
@@ -131,14 +177,18 @@ const otherFeeds: FeedItem[] = [
       {
         key: "Channel",
         url: "https://www.youtube.com/feeds/videos.xml?channel_id={channel_id}",
-        examples: [
-          {
-            name: "Gamker攻壳官方频道",
-            // prettier-ignore
-            url: "https://www.youtube.com/channel/UCLgGLSFMZQB8c0WGcwE49Gw",
-            feed: "https://www.youtube.com/feeds/videos.xml?channel_id=UCLgGLSFMZQB8c0WGcwE49Gw",
-          },
-        ],
+
+        list: {
+          title: "Examples",
+          items: [
+            {
+              name: "Gamker攻壳官方频道",
+              // prettier-ignore
+              url: "https://www.youtube.com/channel/UCLgGLSFMZQB8c0WGcwE49Gw",
+              feed: "https://www.youtube.com/feeds/videos.xml?channel_id=UCLgGLSFMZQB8c0WGcwE49Gw",
+            },
+          ],
+        },
       },
     ],
   },
@@ -153,25 +203,31 @@ const otherFeeds: FeedItem[] = [
       {
         key: "commits",
         url: "Recent Commits of a repo https://github.com/{user}/{repo}/commits/{branch}.atom",
-        examples: [
-          {
-            name: "Recent Commits to evanw/esbuild master branch",
-            // prettier-ignore
-            url: "https://github.com/evanw/esbuild",
-            feed: "https://github.com/evanw/esbuild/commits/master.atom",
-          },
-        ],
+        list: {
+          title: "Examples",
+          items: [
+            {
+              name: "Recent Commits to evanw/esbuild master branch",
+              // prettier-ignore
+              url: "https://github.com/evanw/esbuild",
+              feed: "https://github.com/evanw/esbuild/commits/master.atom",
+            },
+          ],
+        },
       },
       {
         key: "releases",
         url: "Releases of a repo https://github.com/{user}/{repo}/releases.atom",
-        examples: [
-          {
-            name: "Releases of facebook/react",
-            url: "https://github.com/facebook/react",
-            feed: "https://github.com/facebook/react/releases.atom",
-          },
-        ],
+        list: {
+          title: "Examples",
+          items: [
+            {
+              name: "Releases of facebook/react",
+              url: "https://github.com/facebook/react",
+              feed: "https://github.com/facebook/react/releases.atom",
+            },
+          ],
+        },
       },
     ],
   },
@@ -186,25 +242,31 @@ const otherFeeds: FeedItem[] = [
       {
         key: "subreddit",
         url: "Posts of a subreddit https://www.reddit.com/r/{subreddit}.rss",
-        examples: [
-          {
-            name: "Posts of r/EarthPorn",
-            url: "https://www.reddit.com/r/EarthPorn",
-            feed: "https://www.reddit.com/r/EarthPorn.rss",
-          },
-        ],
+        list: {
+          title: "Examples",
+          items: [
+            {
+              name: "Posts of r/EarthPorn",
+              url: "https://www.reddit.com/r/EarthPorn",
+              feed: "https://www.reddit.com/r/EarthPorn.rss",
+            },
+          ],
+        },
       },
       {
         key: "subreddit-hot-posts",
         // prettier-ignore
         url: "Hot posts of a subreddit https://www.reddit.com/r/{subreddit}/hot.rss?limit={limit}",
-        examples: [
-          {
-            name: "Hot posts of r/EarthPorn",
-            url: "https://www.reddit.com/r/EarthPorn",
-            feed: "https://www.reddit.com/r/EarthPorn/hot.rss?limit=3",
-          },
-        ],
+        list: {
+          title: "Examples",
+          items: [
+            {
+              name: "Hot posts of r/EarthPorn",
+              url: "https://www.reddit.com/r/EarthPorn",
+              feed: "https://www.reddit.com/r/EarthPorn/hot.rss?limit=3",
+            },
+          ],
+        },
       },
     ],
   },
@@ -219,30 +281,23 @@ export default function Home({ base }: { base: string }) {
       </Head>
       <main className={s.main}>
         <h1>Available Feeds</h1>
-        <Feeds feeds={feeds} base={base} />
+        <Sites sites={feeds} base={base} />
         <h1>Sites Which Provide Feeds Already</h1>
-        <Feeds feeds={otherFeeds} base={""} />
+        <Sites sites={otherFeeds} base={""} />
       </main>
       <Footer />
     </div>
   );
 }
 
-function Feeds({ feeds, base }: { feeds: FeedItem[]; base: string }) {
+function Sites({ sites, base }: { sites: FeedSite[]; base: string }) {
   return (
     <section>
-      {feeds.map(({ icon, title, items }) => {
+      {sites.map(({ icon, title, items }) => {
         return (
           <div key={title}>
             <h2>
-              {icon ? (
-                <img
-                  className={s.icon}
-                  src={icon.u}
-                  width={icon.w}
-                  height={icon.h}
-                />
-              ) : null}
+              {icon ? <img className={s.icon} src={icon.u} width={icon.w} height={icon.h} /> : null}
               {title}
             </h2>
             <ul className={s.feedUl}>
@@ -250,7 +305,9 @@ function Feeds({ feeds, base }: { feeds: FeedItem[]; base: string }) {
                 return (
                   <li key={item.key}>
                     <p>{item.url}</p>
-                    <Examples examples={item.examples} base={base} />
+                    {item.list ? (
+                      <FeedList title={item.list.title} items={item.list.items} base={base} />
+                    ) : null}
                   </li>
                 );
               })}
@@ -262,30 +319,24 @@ function Feeds({ feeds, base }: { feeds: FeedItem[]; base: string }) {
   );
 }
 
-function Examples({
-  examples,
-  base,
-}: {
-  examples?: ExampleItem[];
-  base: string;
-}) {
-  return examples ? (
+function FeedList(props: FeedListItem & { base: string }) {
+  return (
     <>
-      <h3>Examples</h3>
+      {props.title ? <h3>{props.title}</h3> : null}
       <Ol>
-        {examples.map((a) => {
+        {props.items.map((a) => {
           return (
             <li key={a.name}>
               <div className={s.listCnt}>
                 <a href={a.url}>{a.name}</a>
-                <CopiableExample cnt={base + a.feed} />
+                <CopiableExample cnt={props.base + a.feed} />
               </div>
             </li>
           );
         })}
       </Ol>
     </>
-  ) : null;
+  );
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {

@@ -2,6 +2,7 @@
 
 ## Development
 
-```sh
+```bash
+# dev
 yarn dev
 ```
