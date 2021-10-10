@@ -34,7 +34,7 @@ function buildItems(content: string) {
     const url = "https://dribbble.com" + uri;
     const id = uri.slice(7);
 
-    const imgEl = $(elem).find(".js-shot-thumbnail-base img");
+    const imgEl = $(elem).find(".shot-thumbnail-base img");
     const formattedImgStr = buildImageElement(imgEl);
 
     const authorName = $(elem)
