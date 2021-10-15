@@ -46,9 +46,9 @@ function EpicGamesOfferItem({ promo }: { promo: PromoElement }) {
     <div>
       <a href={"https://www.epicgames.com/store/zh-CN/p/" + promo.urlSlug}>
         <h2>{promo.title}</h2>
-        {coverUrl ? <img src={coverUrl} /> : null}
-        <Price original={originalPrice} discount={discountPrice} />
       </a>
+      {coverUrl ? <img src={coverUrl} /> : null}
+      <Price original={originalPrice} discount={discountPrice} />
       <OfferDate promotions={promo.promotions} />
       <p>{promo.description}</p>
       <CustomAttributes items={promo.customAttributes} />

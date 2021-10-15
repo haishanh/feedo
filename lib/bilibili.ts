@@ -91,14 +91,14 @@ type VlistItem = {
 };
 
 function formatVlistItem(item: VlistItem) {
-  const img = "https:" + item.pic + "@750w_469h_90Q_1c.jpg";
+  const img = item.pic.replace(/^http:\/\//, 'https://') + "@750w_469h_90Q_1c.jpg";
   return {
     id: item.bvid,
     url: `https://www.bilibili.com/video/${item.bvid}`,
     content_html: `
 <p>${item.description}</p>
 <img src="${img}" width="750" height="469" />
-<iframe src="//player.bilibili.com/player.html?bvid=${item.bvid}&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>`,
+<iframe src="https://player.bilibili.com/player.html?bvid=${item.bvid}&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>`,
     title: item.title,
     image: img,
     date_published: new Date(item.created * 1000),

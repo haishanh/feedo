@@ -137,7 +137,7 @@ export async function generateOfferFeed2({ feedUrl }: { feedUrl: string }) {
   }
 }
 
-export function generateOfferFeed(
+function generateOfferFeed(
   data: { count: number; data: Array<{ data: string; p0: string; key: string }> },
   feedUrl: string
 ) {
