@@ -33,3 +33,11 @@ export function fmt1(a: string) {
   const dd = pad0(d.getDate(), 2);
   return `${YYYY}-${MM}-${dd}`;
 }
+
+export function roundUTCDatetime(d: Date) {
+  d.setUTCHours(0);
+  d.setUTCMilliseconds(0);
+  d.setUTCMinutes(0);
+  d.setUTCSeconds(0);
+  return d;
+}

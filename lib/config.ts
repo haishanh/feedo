@@ -10,4 +10,5 @@ export const config = {
   "epicgames.offer.astra.region": env.EPICGAMES_ASTRA_REGION,
   "epicgames.offer.astra.keyspace": env.EPICGAMES_ASTRA_KEYSPACE,
   "epicgames.offer.astra.appToken": env.EPICGAMES_ASTRA_APP_TOKEN,
+  "producthunt.token": env.PRODUCTHUNT_TOKEN,
 };
