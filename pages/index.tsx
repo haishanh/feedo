@@ -4,6 +4,8 @@ import { Ol } from "@lib/components/Ol";
 import { Footer } from "@lib/components/Footer";
 import { CopiableExample } from "@lib/components/CopiableExample";
 import { GetServerSideProps } from "next";
+import * as icons from "@lib/components/icons/ProductHunt";
+import { Feedo as FeedoIcon } from "@lib/components/icons/Feedo";
 
 type FeedItem = { name: string; url: string; feed: string };
 
@@ -16,9 +18,28 @@ type FeedUrlItem = {
   // items?: FeedItem[];
 };
 
+type ImageIcon = {
+  /**
+   * the url
+   */
+  u: string;
+  w: number;
+  h: number;
+};
+
+type ComponentIcon<
+  Props = {
+    width: number;
+    height: number;
+  }
+> = {
+  component: React.FunctionComponent<Props>;
+  props: Props;
+};
+
 type FeedSite = {
   title: string;
-  icon?: { u: string; w: number; h: number };
+  icon?: ImageIcon | ComponentIcon;
   items: FeedUrlItem[];
 };
 
@@ -163,6 +184,36 @@ const feeds: FeedSite[] = [
       },
     ],
   },
+  {
+    title: "Product Hunt",
+    icon: {
+      component: icons.ProductHunt,
+      props: {
+        width: 48,
+        height: 48,
+      },
+    },
+    items: [
+      {
+        key: "daily",
+        url: "Daily Posts /api/producthunt/posts/v1/{type}",
+        list: {
+          items: [
+            {
+              name: "JSON",
+              url: "https://www.producthunt.com/",
+              feed: "/api/producthunt/daily/v1/json",
+            },
+            {
+              name: "Atom",
+              url: "https://www.producthunt.com/",
+              feed: "/api/producthunt/daily/v1/atom",
+            },
+          ],
+        },
+      },
+    ],
+  },
 ];
 
 const otherFeeds: FeedSite[] = [
@@ -280,6 +331,9 @@ export default function Home({ base }: { base: string }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={s.main}>
+        <header>
+          <FeedoIcon width={150} height={150} />
+        </header>
         <h1>Available Feeds</h1>
         <Sites sites={feeds} base={base} />
         <h1>Sites Which Provide Feeds Already</h1>
@@ -290,6 +344,16 @@ export default function Home({ base }: { base: string }) {
   );
 }
 
+function renderFeedLogo(icon: ImageIcon | ComponentIcon) {
+  if (!icon) return null;
+
+  if ("u" in icon) {
+    return <img className={s.icon} src={icon.u} width={icon.w} height={icon.h} />;
+  }
+
+  return icon.component(icon.props);
+}
+
 function Sites({ sites, base }: { sites: FeedSite[]; base: string }) {
   return (
     <section>
@@ -297,7 +361,7 @@ function Sites({ sites, base }: { sites: FeedSite[]; base: string }) {
         return (
           <div key={title}>
             <h2>
-              {icon ? <img className={s.icon} src={icon.u} width={icon.w} height={icon.h} /> : null}
+              {renderFeedLogo(icon)}
               {title}
             </h2>
             <ul className={s.feedUl}>
