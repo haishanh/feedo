@@ -98,7 +98,7 @@ function formatVlistItem(item: VlistItem) {
     content_html: `
 <p>${item.description}</p>
 <img src="${img}" width="750" height="469" />
-<iframe src="https://player.bilibili.com/player.html?bvid=${item.bvid}&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>`,
+<iframe src="https://player.bilibili.com/player.html?bvid=${item.bvid}&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" width="750" height="469"></iframe>`,
     title: item.title,
     image: img,
     date_published: new Date(item.created * 1000),
