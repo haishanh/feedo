@@ -4,12 +4,18 @@ import * as epic from "@lib/epicgames";
 import toAtom from "jsonfeed-to-atom";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const type = req.query?.type || "json";
   const feedUrl = buildFeedUrl(req);
-  const jsonFeed = await epic.generateOfferFeed2({ feedUrl });
-  const atom = toAtom(jsonFeed);
-  res.setHeader("content-type", "text/xml; charset=UTF-8");
+  const json = await epic.generateOfferFeed2({ feedUrl });
   res.setHeader("cache-control", "public, max-age=900");
-  res.send(atom);
+  if (type === "atom") {
+    const atom = toAtom(json);
+    res.setHeader("content-type", "text/xml; charset=UTF-8");
+    res.send(atom);
+  } else {
+    res.setHeader("content-type", "application/json; charset=UTF-8");
+    res.send(json);
+  }
 }
 
 function buildFeedUrl(req: NextApiRequest) {
