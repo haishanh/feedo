@@ -44,7 +44,7 @@ function EpicGamesOfferItem({ promo }: { promo: PromoElement }) {
   const discountPrice = get(promo, "price.totalPrice.fmtPrice.discountPrice");
   return (
     <div>
-      <a href={"https://www.epicgames.com/store/zh-CN/p/" + promo.urlSlug}>
+      <a href={"https://www.epicgames.com/store/zh-CN/p/" + promo.productSlug}>
         <h2>{promo.title}</h2>
       </a>
       {coverUrl ? <img src={coverUrl} /> : null}
