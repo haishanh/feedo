@@ -13,8 +13,9 @@ import { pad0 } from "@lib/util";
 //   'https://zh.wikipedia.org/api/rest_v1/feed/featured/2021/01/13'
 
 import axios, { AxiosInstance, AxiosError } from "axios";
+import { WikipediaFeatured } from "./server/components/WikipediaFeatured";
 
-type WikiImage = {
+export type WikiImage = {
   source: string;
   width: number;
   height: number;
@@ -25,7 +26,7 @@ type WikiContentUrl = {
   mobile: { page: string };
 };
 
-type WikipediaMostreadArticle = {
+export type WikipediaMostreadArticle = {
   pageid: number;
   description: string;
   displaytitle: string;
@@ -33,7 +34,7 @@ type WikipediaMostreadArticle = {
   content_urls: WikiContentUrl;
 };
 
-type WikiFeatured = {
+export type WikiFeatured = {
   tfa?: {
     displaytitle: string;
     extract_html: string;
@@ -105,7 +106,7 @@ export class Wikipedia {
 }
 
 function buildItemContentHtml(item: WikiFeatured) {
-  return render(item);
+  return ReactDOMServer.renderToStaticMarkup(WikipediaFeatured(item));
 }
 
 function buildItem(id: Id, item: WikiFeatured) {
@@ -127,87 +128,4 @@ function buildJsonFeed(cnt: WikiFeatured[], ids: Id[], feedUrl: string) {
     favicon: "https://zh.wikipedia.org/static/apple-touch/wikipedia.png",
     items: cnt.map((item, idx) => buildItem(ids[idx], item)),
   };
-}
-
-///// renderers
-
-function img(a: WikiImage) {
-  return a
-    ? c("img", {
-        src: a.source,
-        width: a.width,
-        height: a.height,
-      })
-    : null;
-}
-
-function renderTfa(tfa: WikiFeatured["tfa"] | undefined) {
-  if (!tfa) return null;
-
-  return c(
-    "section",
-    null,
-    c("h2", null, "典范条目"),
-    c(
-      "h3",
-      null,
-      c("a", { href: get(tfa, "content_urls.desktop.page") }, tfa.displaytitle)
-    ),
-    img(tfa.thumbnail),
-    c("div", { dangerouslySetInnerHTML: { __html: tfa.extract_html } })
-  );
-}
-
-function renderMostReadArticle(a: WikipediaMostreadArticle) {
-  return c(
-    "li",
-    { key: a.pageid },
-    c(
-      "div",
-      null,
-      c(
-        "p",
-        null,
-        c("a", { href: get(a, "content_urls.desktop.page") }, a.displaytitle)
-      ),
-      c("p", null, a.description),
-      img(a.thumbnail)
-    )
-  );
-}
-
-function renderMostRead(mostread: WikiFeatured["mostread"]) {
-  const { articles } = mostread;
-  return c(
-    "section",
-    null,
-    c("h2", null, "最多阅读"),
-    c(
-      "ol",
-      null,
-      articles.slice(0, 10).map((a) => renderMostReadArticle(a))
-    )
-  );
-}
-
-function renderDailyImage(o: WikiFeatured["image"] | undefined) {
-  if (!o) return null;
-  return c(
-    "section",
-    null,
-    c("h2", null, "每日图片"),
-    img(o.thumbnail),
-    o.description ? c("p", null, get(o, "description.text")) : null
-  );
-}
-
-function render(data: WikiFeatured) {
-  const e = c(
-    "div",
-    null,
-    renderTfa(data.tfa),
-    renderMostRead(data.mostread),
-    renderDailyImage(data.image)
-  );
-  return ReactDOMServer.renderToStaticMarkup(e);
 }
