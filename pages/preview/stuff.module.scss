@@ -1,0 +1,38 @@
+@media (prefers-color-scheme: dark) {
+  .main {
+    --bg-main: hsl(0, 0%, 12.5%);
+    --bg-card: hsl(0, 0%, 17.6%);
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  .main {
+    --bg-main: hsl(0, 0%, 93.3%);
+    --bg-card: hsl(0, 0%, 98%);
+  }
+}
+
+.main {
+  padding: 1em;
+  color: var(--color-fg);
+  background-color: var(--bg-main);
+}
+
+.title {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2em 1em 1em;
+}
+
+.section {
+  background-color: var(--bg-card);
+  max-width: 1000px;
+  padding: 1em;
+  margin: 1em auto;
+  border-radius: 10px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+
+  img {
+    max-width: 100%;
+  }
+}
