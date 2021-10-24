@@ -1,5 +1,7 @@
 import axios, { AxiosInstance, AxiosError, AxiosResponse } from "axios";
 import { URLSearchParams } from "url";
+import ReactDOMServer from "react-dom/server";
+import { BiliVideo } from "./server/components/BiliVideo";
 
 const FAVICON = "https://www.bilibili.com/favicon.ico";
 
@@ -91,14 +93,14 @@ type VlistItem = {
 };
 
 function formatVlistItem(item: VlistItem) {
-  const img = item.pic.replace(/^http:\/\//, 'https://') + "@750w_469h_90Q_1c.jpg";
+  const img = item.pic.replace(/^http:\/\//, "https://") + "@750w_469h_90Q_1c.jpg";
+
+  const html = ReactDOMServer.renderToStaticMarkup(BiliVideo({ ...item, imageUrl: img }));
+
   return {
     id: item.bvid,
     url: `https://www.bilibili.com/video/${item.bvid}`,
-    content_html: `
-<p>${item.description}</p>
-<img src="${img}" width="750" height="469" />
-<iframe src="https://player.bilibili.com/player.html?bvid=${item.bvid}&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" width="750" height="469"></iframe>`,
+    content_html: html,
     title: item.title,
     image: img,
     date_published: new Date(item.created * 1000),
