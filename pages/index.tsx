@@ -188,10 +188,7 @@ const feeds: FeedSite[] = [
     title: "Product Hunt",
     icon: {
       component: icons.ProductHunt,
-      props: {
-        width: 48,
-        height: 48,
-      },
+      props: { width: 48, height: 48 },
     },
     items: [
       {
