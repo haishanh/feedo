@@ -2,8 +2,8 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell,
-    Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  /* prettier-ignore */
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
 a {
@@ -24,12 +24,13 @@ a:hover {
 }
 
 :root {
-  --fmono: ui-monospace, "Cascadia Mono", "Segoe UI Mono", "Ubuntu Mono", "Roboto Mono", Menlo,
-    Monaco, Consolas, monospace;
+  /* prettier-ignore */
+  --fmono: ui-monospace, "Cascadia Mono", "Segoe UI Mono", "Ubuntu Mono", "Roboto Mono", Menlo, Monaco, Consolas, monospace;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
+    color-scheme: dark;
     --color-bg: #111;
     --color-fg: #eee;
     --color-pre-bg: #1a1a1a;
@@ -38,6 +39,7 @@ a:hover {
 
 @media (prefers-color-scheme: light) {
   :root {
+    color-scheme: light;
     --color-bg: #f7f7f7;
     --color-fg: #111;
     --color-pre-bg: #fff;
