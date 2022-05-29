@@ -4,6 +4,7 @@ name: Docker workflow
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
+  TEST_TAG: feedo:test
 
 jobs:
   docker:
@@ -51,7 +52,24 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push
+      - name: Docker build
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfile
+          load: true
+          tags: ${{ env.TEST_TAG }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache
+
+      - name: Docker run
+        run: |
+          docker run --rm -d -p 3000:3000 ${{ env.TEST_TAG }}
+          sleep 10
+          curl "http://localhost:3000/api/hackernews/v1/daily/json" | grep "Hacker News"
+
+      - name: Docker push
         id: docker_build
         uses: docker/build-push-action@v2
         with:
