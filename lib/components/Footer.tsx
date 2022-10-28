@@ -1,5 +1,5 @@
 import { GitHub } from "react-feather";
-import VisuallyHidden from "@reach/visually-hidden";
+import { VisuallyHidden } from "@reach/visually-hidden";
 import s from "./Footer.module.scss";
 
 export function Footer() {

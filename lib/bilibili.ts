@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosError, AxiosResponse } from "axios";
+import axios, { AxiosInstance, AxiosError } from "axios";
 import { URLSearchParams } from "url";
 import ReactDOMServer from "react-dom/server";
 import { BiliVideo } from "./server/components/BiliVideo";
@@ -8,7 +8,11 @@ const FAVICON = "https://www.bilibili.com/favicon.ico";
 export class BilibiliService {
   constructor() {
     this.axios = axios.create({
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "user-agent":
+          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36",
+      },
     });
     this.baseUrl = "https://api.bilibili.com/x/space";
   }

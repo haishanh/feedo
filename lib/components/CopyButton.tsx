@@ -1,4 +1,4 @@
-import VisuallyHidden from "@reach/visually-hidden";
+import { VisuallyHidden } from "@reach/visually-hidden";
 import * as React from "react";
 import { Check, Clipboard } from "react-feather";
 
@@ -7,7 +7,7 @@ import { IconButton } from "@lib/components/IconButton";
 const { useCallback, useState } = React;
 
 type CopyButtonProps = {
-  provideContent(): string;
+  provideContent: () => string;
 };
 
 export function CopyButton({ provideContent }: CopyButtonProps) {
