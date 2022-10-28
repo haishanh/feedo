@@ -99,7 +99,7 @@ async function getHeadlines(date: Date) {
     const startTime = endTime - 25 * 60 * 60;
     const qs = `numericFilters=created_at_i>${startTime},created_at_i<${endTime}`;
     const res = await axios.get(API_BASE + "?" + qs);
-    const ret: HackerNewsItemSource[] = res.data.hits.slice(0, 10);
+    const ret: HackerNewsItemSource[] = res.data.hits.slice(0, 20);
     return ret;
   } catch (error) {
     console.log(error);

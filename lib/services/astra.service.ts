@@ -36,12 +36,7 @@ export class Astra {
   private appToken: string;
 
   constructor(protected opts: AstraOptions, private fetch: Fetch) {
-    this.baseUrl =
-      "https://" +
-      opts.dbId +
-      "-" +
-      opts.region +
-      ".apps.astra.datastax.com/api/rest";
+    this.baseUrl = "https://" + opts.dbId + "-" + opts.region + ".apps.astra.datastax.com/api/rest";
     this.appToken = opts.appToken;
   }
 
@@ -149,11 +144,7 @@ export class Astra {
   public query(opts: { table: string; where: any }) {
     const { table, where } = opts;
     // $eq, $ne, $in, $nin, $gt, $lt, $gte, $lte, $exists
-    const qs = new URLSearchParams({
-      where: JSON.stringify(where),
-    });
-    return this.req({
-      uri: `/v2/keyspaces/${this.opts.keyspace}/${table}?${qs}`,
-    });
+    const qs = new URLSearchParams({ where: JSON.stringify(where) });
+    return this.req({ uri: `/v2/keyspaces/${this.opts.keyspace}/${table}?${qs}` });
   }
 }
