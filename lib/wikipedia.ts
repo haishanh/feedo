@@ -1,6 +1,4 @@
 import ReactDOMServer from "react-dom/server";
-import { createElement as c } from "react";
-import get from "dlv";
 
 import { pad0 } from "@lib/util";
 

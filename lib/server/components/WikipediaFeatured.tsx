@@ -10,12 +10,14 @@ function Image(a: WikiImage) {
 
 function Tfa({ tfa }: { tfa: WikiFeatured["tfa"] | undefined }) {
   if (!tfa) return null;
+  const capture = /<span[^>]*?>([^<]*)<\/span>/.exec(tfa.displaytitle || '');
+  const title = capture ? capture[1] : tfa.displaytitle;
 
   return (
     <section>
-      <h2>典范条目</h2>{" "}
+      <h2>典范条目</h2>
       <h3>
-        <a href={get(tfa, "content_urls.desktop.page")}>{tfa.displaytitle}</a>
+        <a href={get(tfa, "content_urls.desktop.page")}>{title}</a>
       </h3>
       <Image {...tfa.thumbnail} />
       <div dangerouslySetInnerHTML={{ __html: tfa.extract_html }} />
@@ -24,11 +26,13 @@ function Tfa({ tfa }: { tfa: WikiFeatured["tfa"] | undefined }) {
 }
 
 function MostReadArticle(a: WikipediaMostreadArticle) {
+  const capture = /<span[^>]*?>([^<]*)<\/span>/.exec(a.displaytitle || '');
+  const title = capture ? capture[1] : a.displaytitle;
   return (
     <li>
       <div>
         <p>
-          <a href={get(a, "content_urls.desktop.page")}>{a.displaytitle}</a>
+          <a href={get(a, "content_urls.desktop.page")}>{title}</a>
         </p>
         <p>{a.description}</p>
         <Image {...a.thumbnail} />
