@@ -1,8 +1,7 @@
 import { pad0 } from "@lib/util";
-import * as renderUtil from "@lib/utils/render.util";
 import ReactDOMServer from "react-dom/server";
-import { createElement as c } from "react";
 import axios from "axios";
+import { HackerNewsItemSource, HackerNewsList } from "./server/components/HackerNews";
 
 const API_BASE = "https://hn.algolia.com/api/v1/search";
 
@@ -18,44 +17,7 @@ function buildJsonFeed(item: any, feedUrl: string) {
 }
 
 function render(items: HackerNewsItemSource[]) {
-  const e = c(
-    "div",
-    null,
-    c(
-      "ol",
-      null,
-      items.map((item) => renderItem(item))
-    )
-  );
-  return ReactDOMServer.renderToStaticMarkup(e);
-}
-
-function renderItem({
-  title,
-  url,
-  points,
-  author,
-  created_at,
-  num_comments,
-  objectID,
-}: HackerNewsItemSource) {
-  const base = "https://news.ycombinator.com";
-  const authorUrl = `${base}/user?id=${author}`;
-  const commentUrl = `${base}/item?id=${objectID}`;
-  return c(
-    "li",
-    { key: objectID },
-    c(
-      "p",
-      null,
-      c("strong", null, renderUtil.link(title, url)),
-      c("br", null),
-      `${points} points by `,
-      renderUtil.link(author, authorUrl),
-      ` ${created_at} | `,
-      renderUtil.link(`${num_comments} comments`, commentUrl)
-    )
-  );
+  return ReactDOMServer.renderToStaticMarkup(HackerNewsList(items));
 }
 
 function buildItem(html: string, id: string) {
@@ -106,15 +68,3 @@ async function getHeadlines(date: Date) {
     throw error;
   }
 }
-
-type HackerNewsItemSource = {
-  // '2021-07-22T18:32:58.000Z'
-  created_at: string;
-  title: string;
-  url: string;
-  author: string;
-  points: number;
-  // '27922545'
-  objectID: string;
-  num_comments: number;
-};
