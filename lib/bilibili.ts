@@ -218,20 +218,20 @@ class BiliFeed {
       }
     });
 
+    const fetchAndSaveInfo = async (mid: string, feedUrl: string) => {
+      const info = await this.fetchInfoForMid(mid, feedUrl);
+      const values = [
+        { key: metaKey, p0: "info", data: JSON.stringify(info) },
+        { key: metaKey, p0: "infoLastFetchedAt", data: JSON.stringify(Date.now()) },
+      ];
+      await this.astra.gql({ query: BULK_INSERT_MUTATION, variables: { values } });
+      return info;
+    };
+
     const info =
       meta.info && now - meta.infoLastFetchedAt < ONE_DAY_MS
         ? meta.info
-        : await this.fetchInfoForMid(mid, feedUrl).then(async (info) => {
-            const values = [
-              { key: metaKey, p0: "info", data: JSON.stringify(info) },
-              { key: metaKey, p0: "infoLastFetchedAt", data: JSON.stringify(Date.now()) },
-            ];
-            await this.astra.gql({
-              query: BULK_INSERT_MUTATION,
-              variables: { values },
-            });
-            return info;
-          });
+        : await fetchAndSaveInfo(mid, feedUrl);
 
     const getItemFromDb = async (mid: string) => {
       const itemKey = this.buildItemKey(mid);
@@ -252,17 +252,9 @@ class BiliFeed {
         p0: item.date_published.toISOString(),
         data: JSON.stringify(item),
       }));
-      values.push({
-        key: metaKey,
-        p0: "itemLastFetchedAt",
-        data: JSON.stringify(Date.now()),
-      });
-
+      values.push({ key: metaKey, p0: "itemLastFetchedAt", data: JSON.stringify(Date.now()) });
       try {
-        await this.astra.gql({
-          query: BULK_INSERT_MUTATION,
-          variables: { values },
-        });
+        await this.astra.gql({ query: BULK_INSERT_MUTATION, variables: { values } });
       } catch (e) {
         console.log("Astra GraphQL call");
         console.log(e);

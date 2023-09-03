@@ -1,7 +1,13 @@
 import * as React from "react";
 
 export function BiliVideo(props: { description: string; imageUrl: string; bvid: string }) {
-  const iframeSrc = `https://player.bilibili.com/player.html?bvid=${props.bvid}&page=1`;
+  // https://player.bilibili.com
+  const qs = new URLSearchParams({
+    bvid: props.bvid,
+    page: "1",
+    autoplay: "0"
+  });
+  const iframeSrc = `https://player.bilibili.com/player.html?${qs}`;
   return (
     <>
       <p>{props.description}</p>
