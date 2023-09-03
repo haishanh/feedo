@@ -1,4 +1,4 @@
-import type { RequestInfo, RequestInit, Response, Headers } from "node-fetch";
+// import type { RequestInfo, RequestInit, Response, Headers } from "node-fetch";
 
 // CREATE TABLE t1 (
 //   key text,
@@ -6,6 +6,13 @@ import type { RequestInfo, RequestInit, Response, Headers } from "node-fetch";
 //   data text,
 //   PRIMARY KEY (key, p0)
 // ) WITH CLUSTERING ORDER BY (p0 ASC);
+//
+// CREATE TABLE t2 (
+//   key text,
+//   p0 text,
+//   data text,
+//   PRIMARY KEY (key, p0)
+// ) WITH CLUSTERING ORDER BY (p0 DESC);
 
 type Fetch = (url: RequestInfo, init: RequestInit) => Promise<Response>;
 
@@ -36,7 +43,7 @@ export class Astra {
   private appToken: string;
 
   constructor(protected opts: AstraOptions, private fetch: Fetch) {
-    this.baseUrl = "https://" + opts.dbId + "-" + opts.region + ".apps.astra.datastax.com/api/rest";
+    this.baseUrl = "https://" + opts.dbId + "-" + opts.region + ".apps.astra.datastax.com/api";
     this.appToken = opts.appToken;
   }
 
@@ -52,6 +59,8 @@ export class Astra {
     if (opts.data) {
       init.body = JSON.stringify(opts.data);
     }
+
+    const op = `${init.method} ${opts.uri}`;
 
     let res: Response;
     try {
@@ -74,29 +83,30 @@ export class Astra {
       }
       result = { data, headers, status: res.status };
     } catch (e) {
+      console.log(op, e)
       throw new FetcherError(e, null);
     }
 
     if (res.ok) {
       return result;
     } else {
+      console.log(op, result)
       throw new FetcherError(null, result);
     }
   }
 
   public getAllKeyspaces() {
-    return this.req({ uri: "/v2/schemas/keyspaces" });
+    return this.req({ uri: "/rest/v2/schemas/keyspaces" });
   }
 
   public getAllTables() {
-    return this.req({
-      uri: `/v2/schemas/keyspaces/${this.opts.keyspace}/tables`,
-    });
+    const uri = `/rest/v2/schemas/keyspaces/${this.opts.keyspace}/tables`;
+    return this.req({ uri });
   }
 
   // public createTable() {
   //   return this.req({
-  //     uri: `/v2/schemas/keyspaces/${this.opts.keyspace}/tables`,
+  //     uri: `/rest/v2/schemas/keyspaces/${this.opts.keyspace}/tables`,
   //     method: "POST",
   //     data: {
   //       name: "test",
@@ -119,6 +129,17 @@ export class Astra {
   //   });
   // }
 
+  public gql(opts: { query: any; variables?: any }) {
+    return this.req({
+      uri: `/graphql/${this.opts.keyspace}`,
+      method: "POST",
+      data: {
+        query: opts.query,
+        variables: opts.variables || {},
+      },
+    });
+  }
+
   public addRow(opts: { table: string; data: Record<string, any> }) {
     const { table, data } = opts;
     const keys = Object.keys(data);
@@ -128,23 +149,33 @@ export class Astra {
     }
 
     return this.req({
-      uri: `/v1/keyspaces/${this.opts.keyspace}/tables/${table}/rows`,
+      uri: `/rest/v1/keyspaces/${this.opts.keyspace}/tables/${table}/rows`,
       method: "POST",
       data: { columns },
+    });
+  }
+
+  public addRowV2(opts: { table: string; data: any }) {
+    const { table } = opts;
+    return this.req({
+      uri: `/rest/v2/keyspaces/${this.opts.keyspace}/${table}`,
+      method: "POST",
+      data: opts.data,
     });
   }
 
   public getRows(opts: { table: string; key: string }) {
     const { table, key } = opts;
     return this.req({
-      uri: `/v2/keyspaces/${this.opts.keyspace}/${table}/${key}`,
+      uri: `/rest/v2/keyspaces/${this.opts.keyspace}/${table}/${key}`,
     });
   }
 
-  public query(opts: { table: string; where: any }) {
+  public query(opts: { table: string; where: any; pageSize?: number }) {
     const { table, where } = opts;
     // $eq, $ne, $in, $nin, $gt, $lt, $gte, $lte, $exists
     const qs = new URLSearchParams({ where: JSON.stringify(where) });
-    return this.req({ uri: `/v2/keyspaces/${this.opts.keyspace}/${table}?${qs}` });
+    if (opts.pageSize) qs.append("page-size", "" + opts.pageSize);
+    return this.req({ uri: `/rest/v2/keyspaces/${this.opts.keyspace}/${table}?${qs}` });
   }
 }

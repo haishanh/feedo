@@ -10,5 +10,9 @@ export const config = {
   "epicgames.offer.astra.region": env.EPICGAMES_ASTRA_REGION,
   "epicgames.offer.astra.keyspace": env.EPICGAMES_ASTRA_KEYSPACE,
   "epicgames.offer.astra.appToken": env.EPICGAMES_ASTRA_APP_TOKEN,
+  "bilibili.astra.dbId": env.BILIBILI_ASTRA_DB_ID,
+  "bilibili.astra.region": env.BILIBILI_ASTRA_REGION,
+  "bilibili.astra.keyspace": env.BILIBILI_ASTRA_KEYSPACE,
+  "bilibili.astra.appToken": env.BILIBILI_ASTRA_APP_TOKEN,
   "producthunt.token": env.PRODUCTHUNT_TOKEN,
 };

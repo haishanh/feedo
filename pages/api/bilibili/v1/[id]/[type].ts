@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { BilibiliService } from "@lib/bilibili";
+import { getBiliFeed } from "@lib/bilibili";
 
 import toAtom from "jsonfeed-to-atom";
 
@@ -7,7 +7,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const type = req.query?.type || "json";
   const id = req.query?.id;
   const feedUrl = buildFeedUrl(req);
-  const bili = new BilibiliService();
+  const bili = getBiliFeed();
   const json = await bili.genFeedFor(id as string, feedUrl);
   res.setHeader("cache-control", "public, max-age=900");
   if (type === "atom") {

@@ -1,5 +1,4 @@
 import axios from "axios";
-import fetch from "node-fetch";
 import get from "dlv";
 import { config } from "@lib/config";
 import { Astra } from "@lib/services/astra.service";
