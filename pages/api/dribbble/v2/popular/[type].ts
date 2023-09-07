@@ -8,7 +8,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const type = req.query?.type || "json";
   const feedUrl = buildFeedUrl(req);
   const html = await fetchPopularPage();
-  const json = buildJsonFeed(html, feedUrl, DribbbleFeedVersion.V1);
+  const json = buildJsonFeed(html, feedUrl, DribbbleFeedVersion.V2);
   res.setHeader("cache-control", "public, max-age=900");
   if (type === "atom") {
     const atom = toAtom(json);
