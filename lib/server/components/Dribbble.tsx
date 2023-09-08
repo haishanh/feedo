@@ -7,18 +7,18 @@ export function LazyImage(props: { alt: string; srcSet: string; src: string }) {
 
 export function Posts(props: { posts: DribbblePost[] }) {
   return (
-    <ul>
+    <section>
       {props.posts.map((p) => {
         return (
-          <li key={p.id}>
+          <p key={p.id}>
             <a href={p.url}>
               <h2>{p.title}</h2>
             </a>
-            <small>{p.author.name}</small>
+            <i>{p.author.name}</i>
             <LazyImage {...p.image} />
-          </li>
+          </p>
         );
       })}
-    </ul>
+    </section>
   );
 }
