@@ -1,7 +1,7 @@
 import axios from "axios";
 import ReactDOMServer from "react-dom/server";
 import * as cheerio from "cheerio";
-import { DribbbleFeedVersion, DribbblePost } from "./types";
+import { DribbbleFeedVersion, DribbblePost, JsonFeedItem } from "./types";
 import { LazyImage, Posts } from "./server/components/Dribbble";
 
 const POPULAR_PAGE = "https://dribbble.com/shots/popular";
@@ -25,15 +25,17 @@ export function buildJsonFeed(content: string, feedUrl: string, ver = DribbbleFe
   };
 }
 
-function buildItems(posts: DribbblePost[], ver = DribbbleFeedVersion.V1) {
+function buildItems(posts: DribbblePost[], ver = DribbbleFeedVersion.V1): JsonFeedItem[] {
   if (ver === DribbbleFeedVersion.V2) {
     const first = posts[0];
     const html = ReactDOMServer.renderToStaticMarkup(Posts({ posts }));
     return [{
       id: first.id,
       url: POPULAR_PAGE,
-      title: "Dribbble",
-      author: "Dribbble Users",
+      title: "Dribbble Popular Shots",
+      author: {
+        name: "Dribbble Users"
+      },
       content_html: html,
     }]
   } else {
