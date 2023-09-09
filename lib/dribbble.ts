@@ -32,7 +32,7 @@ function buildItems(posts: DribbblePost[], ver = DribbbleFeedVersion.V1): JsonFe
     return [{
       id: first.id,
       url: POPULAR_PAGE,
-      title: "Dribbble Popular Shots",
+      title: "Dribbble Popular Shots " + first.id,
       author: {
         name: "Dribbble Users"
       },
