@@ -31,7 +31,7 @@ export function getDribbbleFeed() {
   return df;
 }
 
-class DribbbleFeed {
+export class DribbbleFeed {
   constructor(private astra: Astra) {}
 
   private async fetchPopularPage(): Promise<string> {
@@ -100,7 +100,7 @@ function buildItems(posts: DribbblePost[], ver = DribbbleFeedVersion.V1): JsonFe
   }
 }
 
-function extractPosts(content: string) {
+export function extractPosts(content: string) {
   const $ = cheerio.load(content);
   const list = $(".shots-grid li.shot-thumbnail");
   const items: DribbblePost[] = [];
