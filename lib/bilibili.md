@@ -33,3 +33,16 @@ BILIBILI_ASTRA_REGION=
 BILIBILI_ASTRA_KEYSPACE=
 BILIBILI_ASTRA_APP_TOKEN=
 ```
+
+## Dribbble
+
+```sql
+CREATE TABLE dribbble (
+  pk text,
+  time int,
+  data text,
+  PRIMARY KEY (pk)
+);
+
+CREATE CUSTOM INDEX dribbble_time_sai_idx ON dribbble (time) USING 'StorageAttachedIndex';
+```
